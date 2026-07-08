@@ -9,7 +9,9 @@ A lightweight, background-running Windows application that logs your physical mo
 If you have the compiled `.exe` version, no installation is required.
 
 1. Download `click_counter.exe`.
+
     > It is recommended to save the exe in its own folder as the config file will be saved in the same folder that the exe is run from.
+
 2. Double-click to run. *(Note: Windows Defender may initially flag it; click "More info" -> "Run anyway").*
 3. On first launch, select a folder where you want your log data saved.
 
@@ -20,7 +22,9 @@ If you are running the raw Python script, ensure you have Python 3.x installed.
 1. Clone or download the repository.
 2. Install the required dependency:
    `pip install pynput`
+
    > Note: `tkinter`, `csv`, `os`, and `datetime` are included in the standard Python library.
+
 3. Run the script:
     `python click_counter.py`
 
@@ -30,6 +34,7 @@ If you are running the raw Python script, ensure you have Python 3.x installed.
 2. **Start Tracking:** Click the **Start Tracking** button. The status text will turn green. The app is now silently listening for mouse clicks in the background across all your applications.
 3. **Change location:** Need to save the logs somewhere else? Click **Change Save Location** to pick a new folder. This will automatically update your `config.txt` file.
 4. **Stop Tracking:** Click **Stop Tracking** (or simply close the application) to halt logging.
+
     > You can set it to launch on startup from task manager.
 
 ## Data Format
