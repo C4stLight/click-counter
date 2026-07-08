@@ -49,9 +49,13 @@ def on_click(x, y, button, pressed):
             click_type = "Right"
         elif button == mouse.Button.middle:
             click_type = "Middle"
-        with open(file_path, "a", newline='') as f:
-            writer = csv.writer(f)
-            writer.writerow([click_time, click_type])
+        
+        try:
+            with open(file_path, "a", newline='') as f:
+                writer = csv.writer(f)
+                writer.writerow([click_time, click_type])
+        except PermissionError:
+            pass
 
 def toggle_tracking():
     global is_tracking
