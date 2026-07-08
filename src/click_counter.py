@@ -3,8 +3,7 @@ from pynput import mouse
 from datetime import datetime
 import csv
 is_tracking = False
-timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-file_path = f"click_log_{timestamp}.csv"
+file_path = f"click_log.csv"
 with open(file_path, "w", newline='') as f:
     writer = csv.writer(f)
     writer.writerow(["Timestamp", "Click_Type"])
