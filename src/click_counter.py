@@ -1,32 +1,42 @@
+import tkinter as tk
 from pynput import mouse
 from datetime import datetime
+import csv
+is_tracking = False
 timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
-file_path = f"click_log_{timestamp}.txt"
-clicks = {
-    "left": 0,
-    "right": 0,
-    "middle": 0
-}
-total_clicks = 0
+file_path = f"click_log_{timestamp}.csv"
+with open(file_path, "w", newline='') as f:
+    writer = csv.writer(f)
+    writer.writerow(["Timestamp", "Click_Type"])
 def on_click(x, y, button, pressed):
-    global total_clicks
-    if pressed:
-        total_clicks += 1
+    if is_tracking and pressed:
+        click_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+        click_type = "Unknown"
         if button == mouse.Button.left:
-            clicks["left"] += 1
+            click_type = "Left"
         elif button == mouse.Button.right:
-            clicks["right"] += 1
+            click_type = "Right"
         elif button == mouse.Button.middle:
-            clicks["middle"] += 1
-        log_content = (
-            f"Left Clicks: {clicks['left']}\n"
-            f"Right Clicks: {clicks['right']}\n"
-            f"Middle Clicks: {clicks['middle']}\n"
-            f"-------------------\n"
-            f"Total Clicks: {total_clicks}\n"
-        )
-        with open(file_path, "w") as f:
-            f.write(log_content)
+            click_type = "Middle"
+        with open(file_path, "a", newline='') as f:
+            writer = csv.writer(f)
+            writer.writerow([click_time, click_type])
+def toggle_tracking():
+    global is_tracking
+    is_tracking = not is_tracking
+    if is_tracking:
+        status_label.config(text="Status: Tracking", fg="green")
+        toggle_button.config(text="Stop Tracking")
+    else:
+        status_label.config(text="Status: Not Tracking", fg="red")
+        toggle_button.config(text="Start Tracking")
 listener = mouse.Listener(on_click=on_click)
 listener.start()
-listener.join()
+root = tk.Tk()
+root.title("Click Tracker")
+root.geometry("250x150")
+status_label = tk.Label(root, text="Status: Not Tracking", fg="red", font=("Helvetica", 12))
+status_label.pack(pady=20)
+toggle_button = tk.Button(root, text="Start Tracking", command=toggle_tracking, font=("Helvetica", 12))
+toggle_button.pack(pady=10)
+root.mainloop()
